@@ -73,29 +73,27 @@ EuropeanServers = [
 ]
 basket = [] # this is where we put the server in use.
 
-def pseudoPK(rR):
-    """
-    This initial section, before even the functions, it to assign a unique value in the rR database where this script can read and write its own client IP.
-    This is done to make this app foolproof across different platforms, if the IP of each instance is dynamic or changes for whatever reason, this should
-    globally allow it to put its most current IP into the routing rules that permit wireguard to work with the VPS.
-    """
-    for key in rR.scan_iter(): # scan DB for taken value that says 'false' (it's available as a PK)
-        row = rR.hgetall(key)
-        try:
-            if row['taken'] == 'false':
-                rR.hset(key, mapping={"taken":"true"})
-                return key
-        except:
-            continue
-PK = pseudoPK(rR)
 
-def createIPRow(rR, PK):
-    """
-    This initialises the row with the client IP. With any luck, few write operations will be needed on this.
-    """
-    IP = requests.get('https://api.ipify.org').text
-    rR.hset(PK, mapping={"IP":IP})
-createIPRow(rR, PK)
+"""
+This initial section, before even the functions, it to assign a unique value in the rR database where this script can read and write its own client IP.
+This is done to make this app foolproof across different platforms, if the IP of each instance is dynamic or changes for whatever reason, this should
+globally allow it to put its most current IP into the routing rules that permit wireguard to work with the VPS.
+"""
+for key in rR.scan_iter(): # scan DB for taken value that says 'false' (it's available as a PK)
+    row = rR.hgetall(key)
+    try:
+        if row['taken'] == 'false':
+            rR.hset(key, mapping={"taken":"true"})
+            break
+    except:
+        continue
+
+"""
+This initialises the row with the client IP. With any luck, few write operations will be needed on this.
+"""
+IP = requests.get('https://api.ipify.org').text
+rR.hset(key, mapping={"IP":IP})
+
 
 ### main function
 async def PROCESS(p, id, url):
