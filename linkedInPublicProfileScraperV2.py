@@ -1,6 +1,6 @@
 # imports
-from patchright.async_api import async_playwright
-from patchright.async_api import expect
+from playwright.async_api import async_playwright
+from playwright.async_api import expect
 import asyncio
 import pickle
 import pandas as pd
