@@ -1,0 +1,1 @@
+worker: python linkedInPublicProfileScraperV2.py
