@@ -83,7 +83,7 @@ async def PROCESS(p, id, url):
     counter = 0 # this is just a simple counter that counts how many times a function passes. Once three passes have been completed, it registers all the pseudoPKs that have been allocated successfully and stops counting.
     ipKeys = [] # define this for use later
     
-    def pseudoPK():
+    def pseudoPK(rR):
         """
         This initial section, before even the functions, it to assign a unique value in the rR database where this script can read and write its own client IP.
         This is done to make this app foolproof across different platforms, if the IP of each instance is dynamic or changes for whatever reason, this should
@@ -97,15 +97,15 @@ async def PROCESS(p, id, url):
                     return key
             except:
                 continue
-    PK = pseudoPK()
+    PK = pseudoPK(rR)
 
-    def createIPRow():
+    def createIPRow(rR, PK):
         """
         This initialises the row with the client IP. With any luck, few write operations will be needed on this.
         """
         IP = requests.get('https://api.ipify.org').text
         rR.hset(PK, mapping={"IP":IP})
-    createIPRow()
+    createIPRow(rR, PK)
     
     def changeServer(EuropeanServers, basket): # paranoia about global variables.
         """
