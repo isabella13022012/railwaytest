@@ -3,4 +3,4 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
-CMD ["python3", "your_script.py"]
+CMD ["python3", "linkedInPublicProfileScraperV2.py"]
