@@ -160,7 +160,7 @@ async def PROCESS(p, id, url):
         proxy={
             "server": "http://167.233.207.49:8888"
         },
-        headless=False # for testing.
+        headless=True
     )
     context = await browser.new_context()
     page = await context.new_page()
