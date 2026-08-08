@@ -93,7 +93,7 @@ This initialises the row with the client IP. With any luck, few write operations
 """
 IP = requests.get('https://api.ipify.org').text
 rR.hset(key, mapping={"IP":IP})
-
+primaryKey = key
 
 ### main function
 async def PROCESS(p, id, url):
@@ -101,6 +101,7 @@ async def PROCESS(p, id, url):
     global EuropeanServers
     global r
     global rR
+    global primaryKey
     counter = 0 # this is just a simple counter that counts how many times a function passes. Once three passes have been completed, it registers all the pseudoPKs that have been allocated successfully and stops counting.
     ipKeys = [] # define this for use later
 
@@ -168,6 +169,7 @@ async def PROCESS(p, id, url):
         await page.goto(url, wait_until="load")
         await page.wait_for_timeout(10000)
     except Exception as e:
+        print(f"URL: {url}")
         print(f"EuropeanServers: {len(EuropeanServers)}")
         print(f"basket: {len(basket)}")
         C = 0
@@ -179,7 +181,7 @@ async def PROCESS(p, id, url):
         print(f"r: {C}")
         print(f"rR: {D}")
         print(f"counter: {counter}")
-        
+        raise ValueError
 
     def checkSupplies(r):
         """
@@ -210,7 +212,7 @@ async def PROCESS(p, id, url):
               )
 
 
-    def queue(rR, EuropeanServers, basket):
+    def queue(rR, EuropeanServers, basket, PK):
         """
         This section of the function basically just checks if this replica has to wait before doing its task. The first row of the database
         I am using to save the results tells us how many instances have passed through here already. It is updated roughly every 10 passes (race conditions
@@ -279,7 +281,7 @@ async def PROCESS(p, id, url):
         """
         Implementation of the race conditions handler, 'queue'. This wraps the server swapper.
         """
-        queue(rR, EuropeanServers, basket)
+        queue(rR, EuropeanServers, basket, primaryKey)
 
 
         """
