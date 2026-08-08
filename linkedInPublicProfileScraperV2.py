@@ -165,10 +165,9 @@ async def PROCESS(p, id, url):
     )
     context = await browser.new_context()
     page = await context.new_page()
-    try:
         proxies = {
-            "http": "http://167.233.207.49:8888",
-            "https": "http://167.233.207.49:8888",
+            "http": "http://89.167.21.40:8888",
+            "https": "http://89.167.21.40:8888",
         }
         print(requests.get("http://api.ipify.org", proxies=proxies, timeout=10).text)
         print('WARIO EPIC GAMING')
