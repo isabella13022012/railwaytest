@@ -167,6 +167,7 @@ async def PROCESS(p, id, url):
     page = await context.new_page()
     try:
         await page.goto(url, wait_until="load")
+        print('WARIO EPIC GAMING')
         await page.wait_for_timeout(10000)
         print('WARIO EPIC GAMING')
     except Exception as e:
