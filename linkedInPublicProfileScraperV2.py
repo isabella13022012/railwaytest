@@ -165,6 +165,7 @@ async def PROCESS(p, id, url):
     )
     context = await browser.new_context()
     page = await context.new_page()
+    try:
         proxies = {
             "http": "http://89.167.21.40:8888",
             "https": "http://89.167.21.40:8888",
