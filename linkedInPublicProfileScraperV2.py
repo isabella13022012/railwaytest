@@ -168,6 +168,7 @@ async def PROCESS(p, id, url):
     try:
         await page.goto(url, wait_until="load")
         await page.wait_for_timeout(10000)
+        print('WARIO EPIC GAMING')
     except Exception as e:
         print(f"URL: {url}")
         print(f"EuropeanServers: {len(EuropeanServers)}")
