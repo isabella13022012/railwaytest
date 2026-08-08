@@ -164,8 +164,22 @@ async def PROCESS(p, id, url):
     )
     context = await browser.new_context()
     page = await context.new_page()
-    await page.goto(url, wait_until="load")
-    await page.wait_for_timeout(10000)
+    try:
+        await page.goto(url, wait_until="load")
+        await page.wait_for_timeout(10000)
+    except Exception as e:
+        print(f"EuropeanServers: {len(EuropeanServers)}")
+        print(f"basket: {len(basket)}")
+        C = 0
+        for row in r.scan_iter():
+            C+=1
+        D = 0
+        for row in rR.scan_iter():
+            D+=1
+        print(f"r: {C}")
+        print(f"rR: {D}")
+        print(f"counter: {counter}")
+        
 
     def checkSupplies(r):
         """
