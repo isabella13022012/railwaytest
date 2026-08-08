@@ -166,6 +166,8 @@ async def PROCESS(p, id, url):
     context = await browser.new_context()
     page = await context.new_page()
     try:
+        print(requests.get('https://api.ipify.org').text)
+        print('WARIO EPIC GAMING')
         await page.goto(url, wait_until="load")
         print('WARIO EPIC GAMING')
         await page.wait_for_timeout(10000)
